@@ -2,10 +2,18 @@ import pymysql
 
 connection = pymysql.connect(
     host='localhost',
-    user='your_username',
-    password='your_password',
-    database='your_database'
+    user='ds',
+    password='0019cg!CG!',
+    unix_socket='/var/run/mysqld/mysqld.sock'
 )
+
+cursor=db.cursor()
+db.commit()
+cursor.execute("use [database]")
+result=cursor.fetchall()
+print(result)
+
+db.close()
 
 -- === CREATE DATABASE AND TABLES ===
 CREATE DATABASE my_database;  -- Creates a new database
