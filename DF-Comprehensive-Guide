@@ -1,0 +1,115 @@
+import pandas as pd
+
+# === FILE OPERATIONS ===
+df = pd.read_csv('file.csv')  # Reads a CSV file into a DataFrame
+df = pd.read_excel('file.xlsx')  # Reads an Excel file into a DataFrame
+df = pd.read_json('file.json')  # Reads a JSON file into a DataFrame
+df.to_csv('output.csv', index=False)  # Saves DataFrame to a CSV file without the index
+df.to_excel('output.xlsx', index=False)  # Saves DataFrame to an Excel file
+df.to_json('output.json')  # Saves DataFrame as a JSON file
+
+# === DATA EXPLORATION ===
+df.head()  # Displays the first 5 rows
+df.tail()  # Displays the last 5 rows
+df.shape  # Returns the shape of the DataFrame as (rows, columns)
+df.columns  # Lists all column names
+df.dtypes  # Displays the data types of all columns
+df.info()  # Provides a concise summary of the DataFrame
+df.describe()  # Shows statistics (mean, std, min, etc.) for numeric columns
+df['column'].unique()  # Returns unique values from a column
+df['column'].nunique()  # Returns the count of unique values in a column
+df.isnull().sum()  # Counts missing values for each column
+df.sample(n=5)  # Randomly sample 5 rows from the DataFrame
+df.memory_usage()  # Memory usage of each column
+df.size  # Total number of elements in the DataFrame
+df.empty  # Check if the DataFrame is empty
+df.nbytes  # Total number of bytes consumed by the DataFrame
+
+# === COLUMN OPERATIONS ===
+df['new_column'] = df['existing_column'] * 2  # Adds a new column
+df.rename(columns={'old_name': 'new_name'}, inplace=True)  # Renames a column
+df.drop(columns=['col1', 'col2'], inplace=True)  # Drops specified columns
+df['column'] = pd.to_numeric(df['column'], errors='coerce')  # Converts a column to numeric (invalid values become NaN)
+df['column'] = df['column'].astype('int')  # Changes the data type of a column
+
+# === ROW OPERATIONS ===
+df.drop(index=[0, 1], inplace=True)  # Drops rows with specified indices
+df.loc[10]  # Selects the row with index 10
+df.iloc[0:5]  # Selects rows by position (first 5 rows)
+df[df['column'] > 10]  # Filters rows where column value is greater than 10
+df[df['column'].isin([1, 2, 3])]  # Filters rows where column value is in a list
+df[~df['column'].isin([1, 2, 3])]  # Filters rows where column value is NOT in a list
+df.query('column > 10 & other_column < 20')  # Filters rows with a query
+
+# === GROUPING AND AGGREGATION ===
+df.groupby('column')['another_column'].count()  # Groups by 'column' and counts 'another_column'
+df.groupby('column').agg({'another_column': ['sum', 'mean']})  # Groups and applies multiple aggregations
+df['column'].value_counts()  # Counts unique values in a column
+df.groupby('column').size()  # Groups by 'column' and returns the size of each group
+
+# === DUPLICATES AND MISSING DATA ===
+df.duplicated()  # Returns a boolean Series indicating duplicated rows
+df[df.duplicated()]  # Displays all duplicated rows
+df.drop_duplicates(inplace=True)  # Removes duplicated rows
+df.fillna(0, inplace=True)  # Fills missing values with 0
+df.dropna(subset=['column'], inplace=True)  # Drops rows with NaN in the specified column
+df.interpolate()  # Fills missing values using interpolation
+df.fillna(method='ffill')  # Forward fills missing values
+df.fillna(method='bfill')  # Backward fills missing values
+df.isna()  # Identifies missing values
+df.notna()  # Identifies non-missing values
+
+# === SORTING ===
+df.sort_values('column', ascending=True, inplace=True)  # Sorts the DataFrame by a column
+df.sort_index(inplace=True)  # Sorts the DataFrame by index
+
+# === RESHAPING DATA ===
+df.pivot(index='col1', columns='col2', values='col3')  # Pivot a DataFrame
+df.pivot_table(index='col1', columns='col2', values='col3', aggfunc='sum')  # Create a pivot table with aggregation
+df.melt(id_vars='col1', value_vars=['col2', 'col3'])  # Unpivot or melt a DataFrame
+df.stack()  # Stacks columns into a MultiIndex
+df.unstack()  # Unstacks a MultiIndex into columns
+
+# === MERGING, JOINING, AND CONCATENATING ===
+pd.concat([df1, df2], axis=0)  # Concatenate two DataFrames row-wise
+pd.concat([df1, df2], axis=1)  # Concatenate two DataFrames column-wise
+df.merge(other_df, on='key')  # Merge two DataFrames on a common column
+df.join(other_df, how='inner')  # Join two DataFrames by their indices
+
+# === TIME SERIES AND DATE OPERATIONS ===
+df['date'] = pd.to_datetime(df['date'])  # Convert a column to datetime
+df.set_index('date', inplace=True)  # Set the datetime column as the index
+df.resample('M').sum()  # Resample data by month and sum values
+df['year'] = df['date'].dt.year  # Extract the year from a datetime column
+df['day_of_week'] = df['date'].dt.day_name()  # Extract the day of the week
+
+# === INDEXING AND MULTIINDEX OPERATIONS ===
+df.set_index(['col1', 'col2'], inplace=True)  # Create a MultiIndex
+df.reset_index(inplace=True)  # Reset the index back to default
+df.swaplevel(0, 1, axis=0)  # Swap levels in a MultiIndex
+df.sort_index(level=0, inplace=True)  # Sort DataFrame by index level
+
+# === STRING OPERATIONS ===
+df['col'].str.upper()  # Convert strings to uppercase
+df['col'].str.contains('substring')  # Check if strings contain a substring
+df['col'].str.replace('old', 'new')  # Replace substrings in strings
+df['col'].str.len()  # Get the length of strings in a column
+
+# === WORKING WITH CATEGORIES ===
+df['col'] = df['col'].astype('category')  # Convert column to categorical type
+df['col'].cat.categories  # List categories
+df['col'].cat.codes  # Get the codes for each category
+df['col'] = df['col'].cat.add_categories(['new_category'])  # Add a category
+
+# === ADVANCED STATISTICAL OPERATIONS ===
+df.corr()  # Computes pairwise correlation of columns
+df.cov()  # Computes covariance of columns
+df['col'].rolling(window=3).mean()  # Rolling window calculations
+df.expanding().mean()  # Expanding window calculations
+df['col'].quantile(0.5)  # Compute the quantile for a column
+
+# === MISCELLANEOUS COMMANDS ===
+df.equals(other_df)  # Check if two DataFrames are equal
+df['col'].rank()  # Rank values in a column
+df.style  # Access the Styler object for formatting
+df.to_markdown()  # Convert the DataFrame to markdown (requires tabulate library)
