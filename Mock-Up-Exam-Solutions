@@ -1,0 +1,55 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Nov 15 21:10:12 2020
+
+@author: dimitrv
+"""
+import pandas as pd
+diamonds = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/diamonds.csv')
+print(diamonds)
+
+
+#Write a Pandas program to read a dataset from diamonds DataFrame and modify 
+#the default columns values and print the first 6 rows.
+
+#1. Calculate the min, max and average value for the ‘dept’ column
+diamonds.depth.min()
+diamonds.depth.max()
+diamonds.depth.mean()
+
+# or
+diamonds['depth'].min()
+diamonds['depth'].max()
+diamonds['depth'].mean()
+
+
+
+#2.	List all the ‘cut’ values, each ‘cut’ value should appear once only
+diamonds.cut.unique()
+
+#or
+diamonds['cut'].unique()
+
+
+#3.	Count and print the number of ‘diamonds’ for each cut
+diamonds.groupby('cut')['cut'].count()
+
+#4.	Print the number of duplicated rows in the data frame
+print(diamonds.duplicated().sum())
+
+
+#5.	Remove the columns that are marked with x,y,z from the data frame
+diamonds.drop(['x'],axis=1)
+diamonds.drop(['y'],axis=1)
+diamonds.drop(['z'],axis=1)
+
+
+#6.	Print the rows for the diamonds where the cut is fair or very good
+#select diamonds where the cut is fair or very good
+diamonds[(diamonds.cut=='Fair') | (diamonds.cut=='Very Good')]
+
+# or alternatively
+a1=diamonds[(diamonds.cut=='Fair')]
+a2=diamonds[(diamonds.cut=='Very good')]
+
+result=pd.concat([a1,a2])
