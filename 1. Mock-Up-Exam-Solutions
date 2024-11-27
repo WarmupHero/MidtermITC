@@ -53,3 +53,66 @@ a1=diamonds[(diamonds.cut=='Fair')]
 a2=diamonds[(diamonds.cut=='Very good')]
 
 result=pd.concat([a1,a2])
+
+import pymysql
+
+# Connect to the database
+connection = pymysql.connect(
+    host='localhost',
+    user='your_username',
+    password='your_password',
+    database='your_database'
+)
+
+try:
+    cursor = connection.cursor()
+
+    # Q1: Display the names of all suppliers, as well as their city
+    cursor.execute("SELECT supplier_name, city FROM suppliers;")
+    result1 = cursor.fetchall()
+    print("Q1:", result1)
+
+    # Q2: Display all the names of suppliers that start with ‘S’
+    cursor.execute("SELECT supplier_name FROM suppliers WHERE supplier_name LIKE 'S%';")
+    result2 = cursor.fetchall()
+    print("Q2:", result2)
+
+    # Q3: Count the number of products and the number of unique products based on pname
+    cursor.execute("SELECT COUNT(*) AS total_products, COUNT(DISTINCT pname) AS unique_products FROM products;")
+    result3 = cursor.fetchall()
+    print("Q3:", result3)
+
+    # Q4: Count the number of Red products
+    cursor.execute("SELECT COUNT(*) AS red_products FROM products WHERE color = 'Red';")
+    result4 = cursor.fetchall()
+    print("Q4:", result4)
+
+    # Q5: Which is the lightest product?
+    cursor.execute("SELECT pname, MIN(weight) AS lightest_weight FROM products;")
+    result5 = cursor.fetchall()
+    print("Q5:", result5)
+
+    # Q6: Sort products by product names, and then by product color
+    cursor.execute("SELECT pname, color FROM products ORDER BY pname ASC, color ASC;")
+    result6 = cursor.fetchall()
+    print("Q6:", result6)
+
+    # Q7: Sort product names by descending order
+    cursor.execute("SELECT pname FROM products ORDER BY pname DESC;")
+    result7 = cursor.fetchall()
+    print("Q7:", result7)
+
+    # Q8: Display the number of products for each color
+    cursor.execute("SELECT color, COUNT(*) AS product_count FROM products GROUP BY color;")
+    result8 = cursor.fetchall()
+    print("Q8:", result8)
+
+    # Q9: What is the name of the supplier that supplied 200 units of product 1?
+    cursor.execute("SELECT suppliers.supplier_name FROM suppliers JOIN supplies ON suppliers.supplier_id = supplies.supplier_id WHERE supplies.product_id = 1 AND supplies.units = 200;")
+    result9 = cursor.fetchall()
+    print("Q9:", result9)
+
+finally:
+    # Close the connection
+    cursor.close()
+    connection.close()
