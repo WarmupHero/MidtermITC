@@ -1,0 +1,97 @@
+Part-0
+Run the examples of Pandas slides, note you may need to replace the quotation marks to '
+Part-1
+We will explore ‘pandas’ with the suppliers and products files. First open the ‘supplier.data’ file with a
+text editor and read it. Then open the ‘product.data’, and the ‘supplierProduct.data’. The supplier file
+contains information about supplier, the product data contains information about products and final the
+supplierProduct file contains information about the products each supplier produces
+Basic Data Frame Commands
+import pandas as pd
+file1='supplier.data'
+#what does it do?
+df1=pd.read_csv(file1,index_col=0, header=0,sep='\s+')
+#like wise read the product data into df2, and the supplierProduct
+into df3
+# …
+#what does it do?
+df1.columns
+df1.index
+2
+df1.info()
+#first 5 records
+df1.head()
+df1.tail()
+#where are the values stored?
+df1.values
+#a short description of the data frame?
+df1.describe()
+1. Filtering in data Frames
+#find the suppliers with status>20
+df1[df1['STATUS']>20]
+# Find The supplier whose city is London
+df1[df1['CITY']=='London']
+#count the suppliers per city
+df1.groupby('CITY').count()
+# sort according to City
+df1.sort_values(by='CITY', ascending=True)
+#Plot the status
+df1['STATUS'].plot.bar()
+#unique cities
+df1['CITY'].unique()
+3
+#change, update
+df1.loc['S4','SNAME']='Adams'
+#How much memory does it take to store the data frame?
+print("memory:", df1.info(memory_usage='deep'))
+#Number of people per city
+group = df1['SNAME'].groupby(df1['CITY']).count()
+#What do the following do?
+df1['CITY'].unique()
+df1['CITY'].nunique()
+2. Merging data frames
+#Now you can do likewise for the products file, create a data frame for that
+a. Count the number of products per city
+CITY
+London 3
+Oslo 1
+Paris 2
+#Load the suppliersProducts file
+#Now lets us get what each supplier actually supplied:
+Res1=pd.merge(df1, df3, how='inner', left_index=True, right_index=True)
+ SNAME STATUS CITY P# QTY
+S1 Smith 20 London P1 200
+S1 Smith 20 London P1 700
+S2 Jones 10 Paris P3 400
+4
+S2 Jones 10 Paris P3 200
+……
+Part-3: Movie Lens 100k
+1. Download the movielens-100K (you will find it in the blackboard also)
+2. Read the readme file
+3. The suggested files are: u.data, u.item, u.genre, u.user
+4. Read the ‘movies’ file as a csv and place it in a data frame. You will need to discover the
+delimiter.
+5. Inspect the header, and the tail of the data frame.
+6. Find out how much memory they take
+7. Find the number of movies per genre, do this with data frames and grouping functions
+8. Find the number of movies seen by each profession (you will need to merge data frames)
+Additional commands you may find useful in you analysis
+• csvframe2['columnName'].count()
+• csvframe2[' columnName'].unique()
+• csvframe2[' columnName '].nunique()
+• csvframe2.groupby('columnName ').count()
+Part-4: Stress test: 20 Million elements (movie ratings)
+• Stress test: Download the MovieLens 20M data set. It contains 20M ratings
+https://grouplens.org/datasets/movielens/
+• Collect in a data frame the user id, along with the titles of movies he/she has seen (you may
+need to do a join)
+• What are the total memory requirements?
+5
+Part-5: Big Stress test: 1.8 Billion elements (edges)
+“Friendster is an on-line gaming network. Before re-launching as a game website, Friendster was a social
+networking site where users can form friendship edge each other. Friendster social network also allows
+users form a group which other members can then join. “
+Source: https://snap.stanford.edu/data/com-Friendster.html
+a. We would like to enter in data frame the following: who is connected to whom. Thus, it will contain
+two columns, and let it create its own index.
+b. what is the memory requirement?
