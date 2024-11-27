@@ -1,0 +1,10 @@
+Pandas, Car Homework Exercise
+
+Use the car.data file
+
+Read the file car data
+Replace missing values with NaN
+Print the most expensive car’s company name and price
+Print all Mercedes cars
+Print the number of cars per company
+Sort all cars by price in descending order
